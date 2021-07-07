@@ -1,2 +1,2 @@
 # geode-app
-The Electron overlay app of the Geode mod loader.
+The Electron overlay app for the Geode mod loader.
