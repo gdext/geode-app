@@ -1,0 +1,29 @@
+{
+  "name": "geode-app",
+  "version": "1.0.0",
+  "description": "The Electron overlay app for the Geode mod loader.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack && node build-finish.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gdext/geode-app.git"
+  },
+  "author": "IliasHDZ",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gdext/geode-app/issues"
+  },
+  "homepage": "https://github.com/gdext/geode-app#readme",
+  "dependencies": {
+    "css-loader": "^5.2.6",
+    "file-loader": "^6.2.0",
+    "style-loader": "^3.0.0",
+    "webpack": "^5.43.0"
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.7.2"
+  }
+}
