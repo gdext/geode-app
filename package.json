@@ -24,6 +24,7 @@
     "webpack": "^5.43.0"
   },
   "devDependencies": {
+    "electron": "^13.1.6",
     "webpack-cli": "^4.7.2"
   }
 }
