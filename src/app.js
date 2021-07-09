@@ -14,5 +14,13 @@ export default class App {
         this.desktop.createWindow({
             title: "another very pogger window"
         });
+
+        document.addEventListener("keydown", (e) => {
+            if (e.code == "F2") {
+                window.geode.sendOverlayKey();
+            }
+        });
+
+        window.geode.onOverlayChangeState(this.desktop.changeOverlayState.bind(this.desktop));
     }
 }

@@ -20,6 +20,7 @@
   "homepage": "https://github.com/gdext/geode-app#readme",
   "dependencies": {
     "css-loader": "^5.2.6",
+    "electron-overlay-window": "^2.0.1",
     "file-loader": "^6.2.0",
     "style-loader": "^3.0.0",
     "webpack": "^5.43.0"

@@ -33,6 +33,10 @@ export default class Desktop {
         this.layer   = ui.div("geode-layer");
         this.footer  = ui.span("geode-footer", this.app.version);
         this.desktop = ui.div("geode-app");
+
+        this.layer.style.opacity = '0';
+        this.footer.style.opacity = '0';
+        this.desktop.style.opacity = '0';
         
         ui.add(this.body, this.layer);
         ui.add(this.body, this.footer);
@@ -83,5 +87,17 @@ export default class Desktop {
         this.lastId++;
 
         this.updateZOrders();
+    }
+
+    changeOverlayState(state) {
+        if (state == true) {
+            this.layer.style.opacity = '';
+            this.footer.style.opacity = '';
+            this.desktop.style.opacity = '';
+        } else {
+            this.layer.style.opacity = '0';
+            this.footer.style.opacity = '0';
+            this.desktop.style.opacity = '0';
+        }
     }
 }
