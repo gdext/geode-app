@@ -1,13 +1,5 @@
-class MessageBox {
-    /**
-     * This will make a message box pop up with the `title` being the title
-     * text and the `caption` being the center text.
-     * @param {*} desktop 
-     * @param {*} title 
-     * @param {*} caption 
-     * @param {*} callback 
-     */
-    constructor(desktop, title, caption, callback) {
+class MainWindow {
+    constructor(desktop, callback) {
         this.window = desktop.createWindow({
             title: title,
             width: 200,
