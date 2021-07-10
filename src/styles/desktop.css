@@ -170,12 +170,12 @@ img {
 }
 
 .window-button.pinned {
-    background-color: #3081CC !important;
+    background-color: #3C94E4 !important;
     opacity: 1;
     border-radius: 3px;
 }
 .window-button.pinned:hover {
-    background-color: #3C94E4 !important;
+    background-color: #3081CC !important;
 }
 
 .close-button:active {
@@ -270,4 +270,16 @@ img {
     margin-left:   4px;
     margin-right:  4px;
     margin-bottom: 4px;
+}
+
+@keyframes windowSemiFade {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.5;
+    }
 }

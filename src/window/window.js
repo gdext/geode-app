@@ -221,7 +221,18 @@ export default class Window {
     }
 
     setVisible(visible) {
-        if (this.pinned) return;
+        if (this.pinned) {
+            if(!visible) {
+                this.winElement.style.animation = 'windowSemiFade 4s';
+                this.winElement.style.animationFillMode = 'both';
+            }
+            else {
+                this.winElement.style.animation = 'none';
+                this.winElement.style.opacity = 1;
+                this.winElement.style.animationFillMode = '';
+            }
+            return;
+        }
 
         if (visible)
             this.winElement.style.opacity = '';
