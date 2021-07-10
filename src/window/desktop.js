@@ -1,15 +1,17 @@
-import ui from './gen_html'
-import '../styles/desktop.css'
+import genhtml from './gen_html';
+import ui from '../scripts/ui';
+import '../styles/desktop.css';
+import '../styles/ui.css';
 
-import bxs_pin from '../icons/bxs-pin.svg'
-import close_big from '../icons/close-big.svg'
+import bxs_pin from '../assets/bxs-pin.svg';
+import close_big from '../assets/close-big.svg';
 
-import Window from './window'
+import Window from './window';
 
 export default class Desktop {
     constructor(body, app) {
-        ui.load_icon("bxs-pin", bxs_pin);
-        ui.load_icon("close-big", close_big);
+        genhtml.load_icon("bxs-pin", bxs_pin);
+        genhtml.load_icon("close-big", close_big);
 
         this.body = body;
         this.app  = app;
@@ -32,16 +34,16 @@ export default class Desktop {
     }
 
     generate() {
-        this.layer   = ui.div("geode-layer");
-        this.footer  = ui.span("geode-footer", this.app.version);
-        this.desktop = ui.div("geode-app");
+        this.layer   = genhtml.div("geode-layer");
+        this.footer  = genhtml.span("geode-footer", this.app.version);
+        this.desktop = genhtml.div("geode-app");
 
         this.layer.style.opacity = '0';
         this.footer.style.opacity = '0';
         
-        ui.add(this.body, this.layer);
-        ui.add(this.body, this.footer);
-        ui.add(this.body, this.desktop);
+        genhtml.add(this.body, this.layer);
+        genhtml.add(this.body, this.footer);
+        genhtml.add(this.body, this.desktop);
     }
 
     updateZOrders() {
@@ -95,7 +97,7 @@ export default class Desktop {
         let win = new Window(this, this.lastId, data);
         win.setVisible(this.overlay_visible);
         
-        ui.add(this.desktop, win.getElement());
+        genhtml.add(this.desktop, win.getElement());
 
         this.windows[this.lastId] = win;
 

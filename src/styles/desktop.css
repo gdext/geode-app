@@ -10,6 +10,7 @@ body {
     height: 100%;
 
     overflow: hidden;
+    color: white;
 
     font-family: 'Segoe UI', sans-serif;
 }
@@ -17,9 +18,44 @@ body {
 .bg {
     position: fixed;
     -webkit-user-drag: none;
-    -webkit-user-select: none;
+    user-select: none;
     z-index: -10;
 }
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+*:focus{
+    outline: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+img {
+    user-select: none;
+}
+
+*::-webkit-scrollbar-thumb {
+    width: 4px;
+    height: 4px;
+    background: #676767;
+    border-radius: 5px;
+}
+
+*::-webkit-scrollbar {
+    width: 4px;
+    height: 4px
+}
+
+/* #3081CC #3C94E4 #1f5f9a - blue */
+/* #1d9a2d - green */
+/* #c1680d - orange */
 
 .geode-layer {
     background-color: black;
@@ -55,7 +91,7 @@ body {
     z-index: -4;
 
     -webkit-user-drag: none;
-    -webkit-user-select: none;
+    user-select: none;
 }
 
 .geode-window {
@@ -66,7 +102,7 @@ body {
 
     border-radius: 3px;
 
-    -webkit-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.4);
+    box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.4);
 
     transition: opacity 0.2s;
 }
@@ -85,7 +121,7 @@ body {
     flex-direction: row;
 
     -webkit-user-drag: none;
-    -webkit-user-select: none;
+    user-select: none;
 }
 
 .window-title {
@@ -115,7 +151,7 @@ body {
     cursor: pointer;
 
     -webkit-user-drag: none;
-    -webkit-user-select: none;
+    user-select: none;
 }
 
 .window-button:hover {
