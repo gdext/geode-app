@@ -1,4 +1,6 @@
 import Desktop from "./window/desktop";
+import ui from "./scripts/ui";
+import util from "./scripts/util";
 
 export default class App {
     constructor() {
@@ -24,6 +26,57 @@ export default class App {
         p.textContent = "THIS IS THE CONTENTS OF THIS WINDOW POGGERS!";
 
         win1.setContent(p);
+
+        let contents = document.createElement('div');
+        contents.classList.add('uistretch');
+        ui.renderUiObject({
+            properties: {
+                type: 'container',
+                paddingX: 15,
+                paddingY: 5
+            }, 
+            children: [
+                {
+                    properties: {
+                        type: 'label',
+                        text: 'Hello?'
+                    }
+                },
+                {
+                    properties: {
+                        type: 'textInput',
+                        placeholder: 'Your credit card information',
+                        icon: 'pick'
+                    }
+                },
+                {
+                    properties: {
+                        type: 'button',
+                        text: 'Submit',
+                        marginTop: 5,
+                        primary: true,
+                        onClick: () => {
+                            util.alert('testalert', 'This is an alert!', 'How Cool!', 'Okay Zoom3r');
+                        }
+                    }
+                },
+                {
+                    properties: {
+                        type: 'button',
+                        text: 'Create Window',
+                        marginTop: 5,
+                        primary: true,
+                        onClick: () => {
+                            let newwin = this.desktop.createWindow({
+                                title: "new window"
+                            });          
+                            newwin.on("close", () => newwin.close());          
+                        }
+                    }
+                }
+            ]
+        }, contents);
+        win2.setContent(contents);
 
         let browser_only_overlaystate = false;
 

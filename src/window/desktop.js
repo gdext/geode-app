@@ -1,10 +1,9 @@
 import genhtml from './gen_html';
-import ui from '../scripts/ui';
 import '../styles/desktop.css';
 import '../styles/ui.css';
 
 import bxs_pin from '../assets/bxs-pin.svg';
-import close_big from '../assets/close-big.svg';
+import close_big from '../assets/ic-exit.svg';
 
 import Window from './window';
 

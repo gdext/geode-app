@@ -193,11 +193,13 @@ export default class Window {
     }
 
     close() {
-        this.winElement.style.opacity = '0';
+        this.winElement.style.opacity = 0;
+        this.winElement.style.animation = 'popOut ease 0.25s';
+        this.winElement.style.animationFillMode = 'both';
         setTimeout(() => {
             this.winElement.remove();
             this.desktop.destroyWindow(this.id);
-        }, 200);
+        }, 250);
     }
 
     setContent(content) {

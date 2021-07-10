@@ -105,11 +105,12 @@ img {
     box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.4);
 
     transition: opacity 0.2s;
+    animation: popIn ease 0.32s;
 }
 
 .window-top {
     width: auto;
-    height: 20px;
+    height: 25px;
 
     padding-top: 4px;
     padding-bottom: 4px;
@@ -125,7 +126,8 @@ img {
 }
 
 .window-title {
-    color: rgb(189, 189, 189);
+    color: #aaa;
+    font-weight: 600;
 
     white-space: nowrap;
     overflow: hidden;
@@ -134,17 +136,21 @@ img {
     line-height: 1.2;
 
     height: 22px;
+    display: flex;
+    align-items: center;
 
     flex: 1;
 }
 
 .window-button {
-    filter: brightness(0.74);
+    opacity: 0.5;
+    box-sizing: border-box;
+    padding: 4px;
 
     height: 100%;
 
-    padding-left:  9px;
-    padding-right: 9px;
+    padding-left:  8px;
+    padding-right: 8px;
 
     margin-left: 5px;
 
@@ -155,31 +161,25 @@ img {
 }
 
 .window-button:hover {
-    background-color: rgba(0, 0, 0, 0.239);
-
-    filter: brightness(1);
-
-    border-radius: 3px;
+    opacity: 1;
 }
 
 .window-button:active {
     background-color: rgba(0, 0, 0, 0.439);
-
-    filter: brightness(1);
-
     border-radius: 3px;
 }
 
-.pinned {
-    background-color: rgb(95, 111, 255) !important;
-    
+.window-button.pinned {
+    background-color: #3081CC !important;
+    opacity: 1;
     border-radius: 3px;
+}
+.window-button.pinned:hover {
+    background-color: #3C94E4 !important;
 }
 
 .close-button:active {
-    background-color: rgb(255, 43, 43) !important;
-    
-    border-radius: 3px;
+    background-color: #f33333 !important;
 }
 
 .window-drag {
