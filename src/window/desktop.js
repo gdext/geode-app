@@ -19,6 +19,8 @@ export default class Desktop {
         this.windows = {};
         this.windowOrder = [];
 
+        this.overlay_visible = false;
+
         this.generate();
 
         document.addEventListener("mousedown", (e) => {
@@ -36,7 +38,6 @@ export default class Desktop {
 
         this.layer.style.opacity = '0';
         this.footer.style.opacity = '0';
-        this.desktop.style.opacity = '0';
         
         ui.add(this.body, this.layer);
         ui.add(this.body, this.footer);
@@ -77,8 +78,23 @@ export default class Desktop {
         this.updateZOrders();
     }
 
+    destroyWindow(id) {
+        for (let i = 0; i < this.windowOrder.length; i++) {
+            if (this.windowOrder[i] == id) {
+                this.windowOrder.splice(i, 1);
+                break;
+            }
+        }
+
+        this.windows[id] = undefined;
+
+        this.updateZOrders();
+    }
+
     createWindow(data) {
         let win = new Window(this, this.lastId, data);
+        win.setVisible(this.overlay_visible);
+        
         ui.add(this.desktop, win.getElement());
 
         this.windows[this.lastId] = win;
@@ -87,17 +103,24 @@ export default class Desktop {
         this.lastId++;
 
         this.updateZOrders();
+
+        return win;
     }
 
     changeOverlayState(state) {
         if (state == true) {
             this.layer.style.opacity = '';
             this.footer.style.opacity = '';
-            this.desktop.style.opacity = '';
         } else {
             this.layer.style.opacity = '0';
             this.footer.style.opacity = '0';
-            this.desktop.style.opacity = '0';
+        }
+
+        this.overlay_visible = state;
+
+        for (let i = 0; i < this.windowOrder.length; i++) {
+            let id  = this.windowOrder[i];
+            this.windows[id].setVisible(state);
         }
     }
 }

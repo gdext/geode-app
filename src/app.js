@@ -7,20 +7,38 @@ export default class App {
 
         this.desktop = new Desktop(this.body, this);
 
-        this.desktop.createWindow({
+        let win1 = this.desktop.createWindow({
             title: "very pogger window"
         });
 
-        this.desktop.createWindow({
+        let win2 = this.desktop.createWindow({
             title: "another very pogger window"
         });
 
+        win1.on("close", () => win1.close());
+        win2.on("close", () => win2.close());
+
+        let p = document.createElement("p");
+        p.style.color = "white";
+
+        p.textContent = "THIS IS THE CONTENTS OF THIS WINDOW POGGERS!";
+
+        win1.setContent(p);
+
+        let browser_only_overlaystate = false;
+
         document.addEventListener("keydown", (e) => {
             if (e.code == "F2") {
-                window.geode.sendOverlayKey();
+                if (window.geode)
+                    window.geode.sendOverlayKey();
+                else {
+                    browser_only_overlaystate = !browser_only_overlaystate;
+                    this.desktop.changeOverlayState(browser_only_overlaystate);
+                }
             }
         });
 
-        window.geode.onOverlayChangeState(this.desktop.changeOverlayState.bind(this.desktop));
+        if (window.geode)
+            window.geode.onOverlayChangeState(this.desktop.changeOverlayState.bind(this.desktop));
     }
 }

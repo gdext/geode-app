@@ -6,7 +6,7 @@ const DRAG_LEFT  = 0b0010;
 const DRAG_RIGHT = 0b0001;
 
 export default class Window {
-    constructor(desktop, id, data, callback) {
+    constructor(desktop, id, data) {
         this.x = data.x ? data.x : 200;
         this.y = data.y ? data.y : 300;
         this.width  = data.width  ? data.width  : 400;
@@ -23,8 +23,12 @@ export default class Window {
 
         this.content = ui.div("window-content");
 
+        this.events = {};
+
         this.holding  = false;
         this.dragHold = 0;
+
+        this.ignoreHolding = false;
 
         let posLeft = 0;
         let posRight = 0;
@@ -32,16 +36,43 @@ export default class Window {
         let posTop = 0;
         let posBottom = 0;
 
+        this.pinned = false;
+
+        this.pinButton   = ui.icon("bxs-pin", "window-button");
+        this.closeButton = ui.icon("close-big", ["window-button", "close-button"]);
+
+        this.pinButton.onmousedown = () => {
+            this.ignoreHolding = true;
+        }
+
+        this.closeButton.onmousedown = () => {
+            this.ignoreHolding = true;
+        }
+
+        this.pinButton.onclick = e => {
+            this.emit("pinned", !this.pinned);
+            if (e.button == 0) this.setPinned(!this.pinned);
+        }
+
+        this.closeButton.onclick = e => {
+            this.emit("close");
+        }
+
         this.windowTop = ui.div("window-top", [
             ui.span("window-title", this.title),
             ui.div("window-buttons", [
-                ui.icon("bxs-pin", "window-button"),
-                ui.icon("close-big", "window-button")
+                this.pinButton,
+                this.closeButton
             ])
         ]);
 
         this.windowTop.onmousedown = (e) => {
             window.getSelection().empty();
+
+            if (this.ignoreHolding) {
+                this.ignoreHolding = false;
+                return;
+            }
             
             if (e.button == 0)
                 this.holding = true;
@@ -146,6 +177,54 @@ export default class Window {
         ]);
 
         this.updateTransform();
+    }
+
+    emit(event, ...args) {
+        if (this.events[event])
+            for (let cb of this.events[event])
+                cb(...args);
+    }
+
+    on(event, callback) {
+        if (!this.events[event])
+            this.events[event] = [];
+
+        this.events[event].push(callback);
+    }
+
+    close() {
+        this.winElement.style.opacity = '0';
+        setTimeout(() => {
+            this.winElement.remove();
+            this.desktop.destroyWindow(this.id);
+        }, 200);
+    }
+
+    setContent(content) {
+        while (this.content.firstChild) {
+            this.content.removeChild(this.content.lastChild);
+        }
+
+        ui.add(this.content, content);
+    }
+
+    setPinned(state) {
+        if (state) {
+            this.winElement.style.opacity = '';
+            this.pinButton.classList.add("pinned");
+        } else
+            this.pinButton.classList.remove("pinned");
+
+        this.pinned = state;
+    }
+
+    setVisible(visible) {
+        if (this.pinned) return;
+
+        if (visible)
+            this.winElement.style.opacity = '';
+        else
+            this.winElement.style.opacity = '0';
     }
 
     setZOrder(order) {
