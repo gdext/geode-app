@@ -1,4 +1,4 @@
-import ui from './ui'
+import ui from './gen_html'
 
 const DRAG_UP    = 0b1000;
 const DRAG_DOWN  = 0b0100;

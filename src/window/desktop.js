@@ -1,4 +1,4 @@
-import ui from './ui'
+import ui from './gen_html'
 import '../styles/desktop.css'
 
 import bxs_pin from '../icons/bxs-pin.svg'
