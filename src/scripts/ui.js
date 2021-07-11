@@ -564,7 +564,9 @@ function UiObject() {
         if(options.invisible) container.style.display = 'none';
         if(options.seperationRight != undefined) container.style.marginRight = options.seperationRight + 'px';
         if(options.seperationLeft != undefined) container.style.marginLeft = options.seperationLeft + 'px';
-
+        if(options && options.marginTop) container.style.marginTop = options.marginTop + 'px';
+        if(options && options.marginBottom) container.style.marginBottom = options.marginBottom + 'px';
+        
         //create title
         if(title) {
             let titleElem = document.createElement('p');
@@ -808,6 +810,8 @@ const ui = {
                     targetElement = menuElement;
                     break;
             }
+
+            if(p.uistretch) elementContainer.classList.add('uistretch');
 
             e.appendChild(elementContainer);
 

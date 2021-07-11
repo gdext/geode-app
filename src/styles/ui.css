@@ -443,6 +443,7 @@ input::-webkit-color-swatch {
     flex-direction: column;
     overflow-x: hidden;
     overflow-y: hidden;
+    box-sizing: border-box;
 }
 .uistretch .ui-container {
     width: 100%;

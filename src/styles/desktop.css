@@ -268,10 +268,43 @@ img {
     height: calc(100% - 32px);
 
     overflow: hidden;
+}
 
-    margin-left:   4px;
-    margin-right:  4px;
-    margin-bottom: 4px;
+.sidebar-list {
+    width: 160px;
+    height: 100%;
+    background: #00000022;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.sidebar-list-item {
+    flex-direction: column;
+    display: flex;
+    min-height: 40px;
+    border-bottom: 1px solid #0005;
+    padding: 5px 15px;
+    justify-content: center;
+    user-select: none;
+}
+.sidebar-list-item:hover {
+    background: #00000022;
+}
+.sidebar-list-item.sel {
+    background: #3081CC;
+}
+.sidebar-list-item p {
+    font-size: 12px;
+    color: #ffffff66;
+}
+
+.flex {
+    display: flex;
+}
+
+.sidebar-info {
+    width: 100%;
 }
 
 @keyframes windowSemiFade {
