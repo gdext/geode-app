@@ -2,6 +2,8 @@ import Desktop from "./window/desktop";
 import ui from "./scripts/ui";
 import util from "./scripts/util";
 
+import MainWindow from './window/types/main_window';
+
 export default class App {
     constructor() {
         this.version = "Geode 1.0.0";
@@ -9,9 +11,7 @@ export default class App {
 
         this.desktop = new Desktop(this.body, this);
 
-        let win1 = this.desktop.createWindow({
-            title: "very pogger window"
-        });
+        let win1 = new MainWindow(this.desktop);
 
         let win2 = this.desktop.createWindow({
             title: "another very pogger window"

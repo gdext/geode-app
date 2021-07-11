@@ -1,9 +1,11 @@
+import ui from '../../scripts/ui';
+
 class MainWindow {
     constructor(desktop, callback) {
         this.window = desktop.createWindow({
-            title: title,
-            width: 200,
-            height: 100
+            title: 'Geode Mod Manager',
+            width: 256,
+            height: 512
         });
 
         this.window.on('close', () => {
@@ -11,6 +13,8 @@ class MainWindow {
             callback();
         });
 
-        this.window.setContent( /* Put here an element to be set as the window content */ );
+        //this.window.setContent( /* Put here an element to be set as the window content */ );
     }
 }
+
+export default MainWindow; 
