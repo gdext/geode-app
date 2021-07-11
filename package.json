@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/gdext/geode-app#readme",
   "dependencies": {
+    "adm-zip": "^0.5.5",
     "asar": "^3.0.3",
     "css-loader": "^5.2.6",
     "electron-overlay-window": "^2.0.1",

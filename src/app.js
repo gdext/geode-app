@@ -11,21 +11,13 @@ export default class App {
 
         this.desktop = new Desktop(this.body, this);
 
-        let win1 = new MainWindow(this.desktop);
+        this.main = new MainWindow(this.desktop);
 
         let win2 = this.desktop.createWindow({
             title: "another very pogger window"
         });
 
-        win1.on("close", () => win1.close());
         win2.on("close", () => win2.close());
-
-        let p = document.createElement("p");
-        p.style.color = "white";
-
-        p.textContent = "THIS IS THE CONTENTS OF THIS WINDOW POGGERS!";
-
-        win1.setContent(p);
 
         let contents = document.createElement('div');
         contents.classList.add('uistretch');
