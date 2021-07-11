@@ -21,6 +21,7 @@ export default class App {
 
         let contents = document.createElement('div');
         contents.classList.add('uistretch');
+        contents.style.height = '100%';
         ui.renderUiObject({
             properties: {
                 type: 'container',
@@ -65,7 +66,17 @@ export default class App {
                             newwin.on("close", () => newwin.close());          
                         }
                     }
-                }
+                },
+                ui.container('column', { scroll: 'vertical' }, [
+                    ui.card('Test'), 
+                    ui.card('Test'), 
+                    ui.card('Test'), 
+                    ui.card('Test'), 
+                    ui.card('Test'), 
+                    ui.card('Test'), 
+                    ui.card('Test'), 
+                    ui.card('Test')
+                ])
             ]
         }, contents);
         win2.setContent(contents);

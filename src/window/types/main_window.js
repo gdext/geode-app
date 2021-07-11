@@ -50,8 +50,7 @@ class MainWindow {
             marginBottom: 2
         });
         ui.renderUiObject(mainTabs, this.window.content);
-        this.window.content.children[0].classList.add('uistretch');
-        this.window.content.querySelector('#mainWindowTabs').parentElement.style.height = 'fit-content';
+        this.window.content.classList.add('uistretch');
     
         // add tab sections
         let tabInstalled = document.createElement('div');

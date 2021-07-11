@@ -5,6 +5,9 @@
     display: flex;
     align-items: flex-end;
 }
+.c > .ui-element {
+    flex-shrink: 0;
+}
 .disabled {
     pointer-events: none;
     opacity: 0.5;
@@ -366,12 +369,14 @@ input::-webkit-color-swatch {
 .ui-card {
     padding: 10px 20px;
     background: #1b1b1b;
-    margin: 3px 10px;
+    margin: 3px 0;
     width: 100%;
+    box-sizing: border-box;
     border: 1px solid black;
     border-radius: 4px;
     box-shadow: 0 2px 5px rgba(0,0,0,.3);
     cursor: pointer;
+    display: block !important;
 }
 .ui-card:hover {
     background: #181818;
@@ -448,7 +453,9 @@ input::-webkit-color-swatch {
 .uistretch .ui-container {
     width: 100%;
 }
-
+.uistretch > .ui-container {
+    height: 100%;
+}
 
 .ui-container.collapsed {
     height: 15px;
@@ -472,6 +479,7 @@ input::-webkit-color-swatch {
     display: block;
 }
 .ui-element.sv {
+    flex-shrink: 1 !important;
     overflow-y: auto;
     display: block;
 }

@@ -558,8 +558,10 @@ function UiObject() {
             container.classList.add(directions[direction] || 'c');
         }
         container.style.padding = `${options.paddingY}px ${options.paddingX}px`;
-        //let scrolls = {none: '', vertical: 'sv', horizontal: 'sh', both: 'sb'};
-        //if(options.scroll) container.classList.add(scrolls[options.scroll]);
+        let scrolls = {none: '', vertical: 'sv', horizontal: 'sh', both: 'sb'};
+        if(options.scroll)
+            container.classList.add(scrolls[options.scroll]);
+        
         if(options.isBottomBar) container.classList.add('bbg');
         if(options.invisible) container.style.display = 'none';
         if(options.seperationRight != undefined) container.style.marginRight = options.seperationRight + 'px';
@@ -725,7 +727,6 @@ const ui = {
         function cycle(o, e) {
             let elementContainer = document.createElement('div');
             let p = o.properties;
-            elementContainer.classList.add('ui-element');
             let targetElement;
 
             switch(o.properties.type) {
@@ -736,43 +737,43 @@ const ui = {
                         if(p.onCheckChange) p.onCheckChange(c);
                     }
                     if(p.disabled) checkboxElement.classList.add('disabled');
-                    elementContainer.appendChild(checkboxElement);
+                    elementContainer = checkboxElement;
                     break;
                 case 'button':
                     let buttonElement = uiObject.createButton(p.text, p.id, p.icon, p);
                     buttonElement.onclick = p.onClick;
                     if(p.disabled) buttonElement.classList.add('disabled');
-                    elementContainer.appendChild(buttonElement);
+                    elementContainer = buttonElement;
                     break;
                 case 'textInput':
                     let inputElement = uiObject.createInput('text', p);
                     if(p.disabled) inputElement.classList.add('disabled');
-                    elementContainer.appendChild(inputElement);
+                    elementContainer = inputElement;
                     break;
                 case 'numberInput':
                     let ninputElement = uiObject.createInput('number', p);
                     if(p.disabled) ninputElement.classList.add('disabled');
-                    elementContainer.appendChild(ninputElement);
+                    elementContainer = ninputElement;
                     break;
                 case 'colorInput':
                     let cinputElement = uiObject.createInput('color', p);
                     if(p.disabled) cinputElement.classList.add('disabled');
-                    elementContainer.appendChild(cinputElement);
+                    elementContainer = cinputElement;
                     break;
                 case 'tabs':
                     let tabsElement = uiObject.createTabs(p.items, p.id, p.selected(), p);
                     if(p.disabled) tabsElement.classList.add('disabled');
-                    elementContainer.appendChild(tabsElement);
+                    elementContainer = tabsElement;
                     break;
                 case 'list':
                     let listElement = uiObject.createList(p.items, p.id, p.selected(), p);
                     if(p.disabled) listElement.classList.add('disabled');
-                    elementContainer.appendChild(listElement);
+                    elementContainer = listElement;
                     break;
                 case 'label':
                     let labelElement = uiObject.createLabel(p.id, p.text, p.style, p);
                     if(p.disabled) labelElement.classList.add('disabled');
-                    elementContainer.appendChild(labelElement);
+                    elementContainer = labelElement;
                     break;
                 case 'slider':
                     let slider = uiObject.createSlider(p.id, p.defaultValue(), p.label, p);
@@ -780,33 +781,31 @@ const ui = {
                     let labelElement2 = slider.label;
                     if(p.disabled) sliderElement.classList.add('disabled');
                     if(labelElement2) elementContainer.appendChild(labelElement2);
-                    elementContainer.appendChild(sliderElement);
+                    elementContainer = sliderElement;
                     elementContainer.style.flexDirection = 'column';
                     break;
                 case 'container':
                     let containerElement = uiObject.createContainer(p.id, p.title, p.direction, p);
                     if(p.disabled) containerElement.classList.add('disabled');
-                    elementContainer.appendChild(containerElement);
-                    let scrolls = {none: '', vertical: 'sv', horizontal: 'sh', both: 'sb'};
-                    if(p.scroll) elementContainer.classList.add(scrolls[p.scroll]);
+                    elementContainer = containerElement;
                     targetElement = containerElement;
                     break;
                 case 'card':
                     let cardElement = uiObject.createCard(p.id, p.title, p.description, p);
                     if(p.disabled) cardElement.classList.add('disabled');
-                    elementContainer.appendChild(cardElement);
+                    elementContainer = cardElement;
                     break;
                 case 'dialog':
                     let dialogElement = uiObject.createDialog(p.id, p.title, p.closeButton, p.fullSize);
                     let dialogBgElement = uiObject.createDialogBg(p.id);
 
                     dialogBgElement.appendChild(dialogElement);
-                    elementContainer.appendChild(dialogBgElement);
+                    elementContainer = dialogBgElement;
                     targetElement = dialogElement;
                     break;
                 case 'contextMenu':
                     let menuElement = uiObject.createContextMenu(p.id, p.title, p);
-                    elementContainer.appendChild(menuElement);
+                    elementContainer = menuElement;
                     targetElement = menuElement;
                     break;
             }
@@ -814,6 +813,7 @@ const ui = {
             if(p.uistretch) elementContainer.classList.add('uistretch');
 
             e.appendChild(elementContainer);
+            elementContainer.classList.add('ui-element');
 
             if(p.onCreate) {
                 setTimeout(() => {
