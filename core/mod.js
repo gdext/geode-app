@@ -1,10 +1,14 @@
 const Zip = require("adm-zip");
 const fs = require("fs");
 
+const path = require("path");
+
 module.exports = class Mod {
-    constructor(file) {
+    constructor(file, appData) {
         this.loaded = true;
         this.reason = "";
+
+        this.appData = appData;
 
         if (!fs.existsSync(file)) {
             this.error("Could not find this mod");
@@ -17,7 +21,7 @@ module.exports = class Mod {
         let entries = this.zip.getEntries();
 
         for (let entry of entries) {
-            if (entry.entryName == "config.json" && !entry.isDirectory())
+            if (entry.entryName == "config.json" && !entry.isDirectory)
                 this.config = JSON.parse(entry.getData().toString("utf8"));
         }
 
@@ -27,14 +31,23 @@ module.exports = class Mod {
         }
 
         this.readConfig();
-        if (!isLoaded()) return;
+        if (!this.isLoaded()) return;
 
-        let dll_entry = this.zip.getEntry(this.dll_path);
+        let dllEntry = this.zip.getEntry(this.dllZip);
 
-        if (dll_entry == null) {
+        if (dllEntry == null) {
             this.error("Could not find mod dll or invalid 'dll' property");
             return;
         }
+
+        this.zipName = path.basename(file);
+        this.dllPath = path.join(this.appData, '/temp/mods/');
+
+        this.zip.extractEntryTo(this.dllZip, this.dllPath);
+
+        fs.renameSync(path.join(this.dllPath, path.basename(this.dllZip)), path.join(this.dllPath, this.zipName + ".dll"));
+
+        this.dllPath = path.join(this.dllPath, this.zipName + ".dll");
     }
 
     readConfig() {
@@ -76,7 +89,7 @@ module.exports = class Mod {
             return;
         }
 
-        this.dll_path = this.config["dll"];
+        this.dllZip = this.config["dll"];
     }
 
     error(message) {
