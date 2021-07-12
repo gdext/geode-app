@@ -14,7 +14,7 @@ module.exports = class ModManager {
 
     loadMods() {
         return new Promise((resolve, reject) => {
-            fs.readdir(this.modsFolder, (err, files) => {
+            fs.readdir(this.modFolder, (err, files) => {
                 if (err) return reject(err);
 
                 for (let file of files)

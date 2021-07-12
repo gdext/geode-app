@@ -10,6 +10,8 @@ module.exports = class Mod {
 
         this.modFolder = modFolder;
 
+        this.zipName = path.basename(file);
+
         if (!fs.existsSync(file)) {
             this.error("Could not find this mod");
             return;
@@ -40,7 +42,6 @@ module.exports = class Mod {
             return;
         }
 
-        this.zipName = path.basename(file);
         this.dllPath = this.modCache;
 
         this.zip.extractEntryTo(this.dllZip, this.dllPath);
