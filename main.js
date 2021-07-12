@@ -26,12 +26,27 @@ module.exports = class MainApp {
 
         this.modManager.loadPromise
             .then(() => {
-                console.log("Mods loaded");
-                this.sendWebEvent("mods-loaded", this.modManager.getModList());
+                let mods = [];
+
+                for (let m of this.modManager.getModList()) {
+                    let mod = {
+                        loaded: m.loaded,
+                        reason: m.reason
+                    };
+
+                    if (m.name) mod.name = m.name;
+                    else mod.name = m.zipName;
+                    if (m.version) mod.version = m.version;
+                    if (m.authors) mod.authors = m.authors;
+
+                    mods.push(mod);
+                }
+
+                this.sendWebEvent("mods-loaded", mods);
             })
             .catch(e => {
                 console.log("An error occurred while loading mods: ");
-                console.log(e.message);
+                console.log(e.stack);
             });
 
         ipcMain.handle('overlay-key', this.toggleOverlay.bind(this));
@@ -42,10 +57,12 @@ module.exports = class MainApp {
 
         this.window = new BrowserWindow({
             webPreferences: {
-                preloadPath: this.preloadPath
+                preload: this.preloadPath
             },
             ...overlayOpts
         });
+
+        this.window.webContents.openDevTools();
 
         this.window.setMenu(null);
         this.window.loadFile(this.htmlPath)
