@@ -14,7 +14,7 @@ function closeDialog (id) {
         dialog.classList.remove('vis');
         if(dialog.parentElement) dialog.parentElement.removeChild(dialog);
         if(bg && bg.parentElement) {
-            let rootelem = bg.parentElement;
+            let rootelem = bg;
             bg.parentElement.removeChild(bg);
             rootelem.parentElement.removeChild(rootelem);
         }
