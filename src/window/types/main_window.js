@@ -113,35 +113,39 @@ class MainWindow {
         let selectedListItem = 0;
         let tabInstalledList = document.createElement('div');
         tabInstalledList.classList.add('sidebar-list');
-        let itemi = -1;
-        testData.forEach(item => {
-            itemi++;
-            let localitemi = itemi;
-            let listItem = document.createElement('div');
-            listItem.classList.add('sidebar-list-item');
-            if(localitemi == selectedListItem) {
-                listItem.classList.add('sel');
-                updateInstalledInfo(testData[localitemi]);
-            }
-            if(item.name) {
-                let listItemName = document.createElement('h4');
-                listItemName.innerText = item.name;
-                listItem.appendChild(listItemName);
-            }
-            if(item.authors) {
-                let listItemDesc = document.createElement('p');
-                listItemDesc.innerText = 'by ' + item.authors.join(', ');
-                listItem.appendChild(listItemDesc);
-            }
 
-            listItem.onclick = () => {
-                let curSel = this.window.content.querySelector('.sidebar-list-item.sel');
-                if(curSel) curSel.classList.remove('sel');
-                listItem.classList.add('sel');
-                updateInstalledInfo(testData[localitemi]);
-            }
+        window.geode.onModsLoaded(() => {
+            let loadedMods = window.geode.getLoadedMods();
+            let itemi = -1;
+            loadedMods.forEach(item => {
+                itemi++;
+                let localitemi = itemi;
+                let listItem = document.createElement('div');
+                listItem.classList.add('sidebar-list-item');
+                if(localitemi == selectedListItem) {
+                    listItem.classList.add('sel');
+                    updateInstalledInfo(loadedMods[localitemi]);
+                }
+                if(item.name) {
+                    let listItemName = document.createElement('h4');
+                    listItemName.innerText = item.name;
+                    listItem.appendChild(listItemName);
+                }
+                if(item.authors) {
+                    let listItemDesc = document.createElement('p');
+                    listItemDesc.innerText = 'by ' + item.authors.join(', ');
+                    listItem.appendChild(listItemDesc);
+                }
 
-            tabInstalledList.appendChild(listItem);
+                listItem.onclick = () => {
+                    let curSel = this.window.content.querySelector('.sidebar-list-item.sel');
+                    if(curSel) curSel.classList.remove('sel');
+                    listItem.classList.add('sel');
+                    updateInstalledInfo(loadedMods[localitemi]);
+                }
+
+                tabInstalledList.appendChild(listItem);
+            });
         });
 
         tabInstalled.appendChild(tabInstalledList);
