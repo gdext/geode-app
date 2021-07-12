@@ -4,11 +4,11 @@ const fs = require("fs");
 const path = require("path");
 
 module.exports = class Mod {
-    constructor(file, modFolder) {
+    constructor(file, modCache) {
         this.loaded = true;
         this.reason = "";
 
-        this.modFolder = modFolder;
+        this.modCache = modCache;
 
         this.zipName = path.basename(file);
 
