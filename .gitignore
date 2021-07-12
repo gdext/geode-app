@@ -104,5 +104,9 @@ dist
 .tern-port
 
 build
-web
+web/
 .VSCodeCounter
+
+test.js
+test_mod.zip
+test_mod/

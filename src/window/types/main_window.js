@@ -21,8 +21,8 @@ class MainWindow {
             title: 'Geode Mod Manager',
             width: 480,
             height: 480,
-            maxWidth: 320,
-            maxHeight: 128,
+            minWidth: 320,
+            minHeight: 128,
             x: 20,
             y: 20
         });

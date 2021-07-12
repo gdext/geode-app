@@ -2,7 +2,7 @@
   "name": "geode-app",
   "version": "1.0.0",
   "description": "The Electron overlay app for the Geode mod loader.",
-  "main": "main.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack && node build-finish.js",

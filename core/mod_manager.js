@@ -4,9 +4,9 @@ const path = require('path');
 const fs = require('fs');
 
 module.exports = class ModManager {
-    constructor(appData) {
-        this.appData = appData;
-        this.modsFolder = path.join(appData, "/mods");
+    constructor(modFolder, modCache) {
+        this.modFolder = modFolder;
+        this.modCache  = modCache;
 
         this.loadedMods  = {};
         this.loadPromise = this.loadMods();
@@ -18,7 +18,7 @@ module.exports = class ModManager {
                 if (err) return reject(err);
 
                 for (let file of files)
-                    this.loadedMods[file] = new Mod(path.join(this.modsFolder, file), this.appData);
+                    this.loadedMods[file] = new Mod(path.join(this.modFolder, file), this.modCache);
 
                 resolve();
             });
