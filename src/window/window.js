@@ -102,6 +102,8 @@ export default class Window {
 
         document.addEventListener('mousemove', (e) => {
             if (this.dragHold != 0) {
+                window.getSelection().empty();
+                
                 if ((this.dragHold & DRAG_UP) != 0)
                     dragUp(e.movementY);
                 if ((this.dragHold & DRAG_DOWN) != 0)
@@ -110,7 +112,7 @@ export default class Window {
                     dragLeft(e.movementX);
                 if ((this.dragHold & DRAG_RIGHT) != 0)
                     dragRight(e.movementX);
-
+                    
                 this.updateTransform();
             } else if (this.holding) {
                 this.x += e.movementX;
@@ -255,8 +257,8 @@ export default class Window {
         this.winElement.style["left"] = this.x + "px";
         this.winElement.style["top"]  = this.y + "px";
 
-        this.winElement.style["width"]  = Math.max(this.width, 200) + "px";
-        this.winElement.style["height"] = Math.max(this.height, 28) + "px";
+        this.winElement.style["width"]  = Math.max(this.width, this.minWidth) + "px";
+        this.winElement.style["height"] = Math.max(this.height, this.minHeight) + "px";
     }
 
     setPosition(x, y) {
