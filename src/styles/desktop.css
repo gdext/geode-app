@@ -277,6 +277,7 @@ img {
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
+    overflow: auto;
 }
 
 .sidebar-list-item {
@@ -306,6 +307,7 @@ img {
 .sidebar-info {
     width: 100%;
     max-width: calc(100% - 160px);
+    overflow: auto;
 }
 
 @keyframes windowSemiFade {

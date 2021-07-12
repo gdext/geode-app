@@ -21,6 +21,8 @@ class MainWindow {
             title: 'Geode Mod Manager',
             width: 480,
             height: 480,
+            maxWidth: 320,
+            maxHeight: 128,
             x: 20,
             y: 20
         });
@@ -53,16 +55,23 @@ class MainWindow {
         this.window.content.classList.add('uistretch');
     
         // add tab sections
+        let tabsMaxHeight = this.window.content.querySelector('#mainWindowTabs') ? 
+        this.window.content.querySelector('#mainWindowTabs').clientHeight : 0;
+        let tabsMaxHeightCss = `calc(100% - ${tabsMaxHeight}px)`
+
         let tabInstalled = document.createElement('div');
         tabInstalled.id = 'mainWindowTab0';
         tabInstalled.classList.add('flex');
         tabInstalled.style.height = '100%';
+        tabInstalled.style.maxHeight = tabsMaxHeightCss;
         let tabBrowse = document.createElement('div');
         tabBrowse.id = 'mainWindowTab1';
         tabBrowse.style.display = 'none';
+        tabBrowse.style.maxHeight = tabsMaxHeightCss;
         let tabSettings = document.createElement('div');
         tabSettings.id = 'mainWindowTab2';
         tabSettings.style.display = 'none';
+        tabSettings.style.maxHeight = tabsMaxHeightCss;
 
         this.window.content.appendChild(tabInstalled);
         this.window.content.appendChild(tabBrowse);

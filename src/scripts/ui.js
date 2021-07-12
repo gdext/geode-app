@@ -561,6 +561,11 @@ function UiObject() {
         let scrolls = {none: '', vertical: 'sv', horizontal: 'sh', both: 'sb'};
         if(options.scroll)
             container.classList.add(scrolls[options.scroll]);
+        if(options.scroll == 'horizontal') {
+            container.onwheel = (e) => {
+                container.scrollLeft += e.deltaY/4;
+            }
+        }
         
         if(options.isBottomBar) container.classList.add('bbg');
         if(options.invisible) container.style.display = 'none';

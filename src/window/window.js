@@ -14,8 +14,8 @@ export default class Window {
 
         this.title = data.title ? data.title : "Geode Untitled Window";
 
-        this.maxWidth  = data.maxWidth  ? data.maxWidth  : 200;
-        this.maxHeight = data.maxHeight ? data.maxHeight : 28;
+        this.minWidth  = data.minWidth  ? data.minWidth  : 200;
+        this.minHeight = data.minHeight ? data.minHeight : 28;
 
         this.id = id;
 
@@ -81,7 +81,7 @@ export default class Window {
         let dragUp = (deltaY) => {
             posTop += deltaY;
 
-            this.y = Math.min(posTop, posBottom - this.maxHeight);
+            this.y = Math.min(posTop, posBottom - this.minHeight);
             this.height -= deltaY;
         };
 
@@ -92,7 +92,7 @@ export default class Window {
         let dragLeft = (deltaX) => {
             posLeft += deltaX;
 
-            this.x = Math.min(posLeft, posRight - this.maxWidth);
+            this.x = Math.min(posLeft, posRight - this.minWidth);
             this.width -= deltaX;
         };
 
@@ -124,8 +124,8 @@ export default class Window {
             this.holding  = false;
             this.dragHold = 0;
 
-            this.width  = Math.max(this.width, this.maxWidth);
-            this.height = Math.max(this.height, this.maxHeight);
+            this.width  = Math.max(this.width, this.minWidth);
+            this.height = Math.max(this.height, this.minHeight);
         });
 
         this.dragTop    = ui.div(["window-drag", "drag-top"]);
