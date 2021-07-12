@@ -90,10 +90,35 @@ class MainWindow {
                     ui.label(item.version? 'v' + item.version : '', { color: '#ffffff66' }),
                 ]),
                 ui.label(item.authors ? 'by ' +  item.authors.join(', ') : 'Source Unknown', { color: '#ffffff66', marginTop: 0, marginBottom: 5 }),
-                ui.container('row', { marginTop: 5, uistretch: true }, [
+                
+                ui.container('row', 
+                { 
+                    marginTop: 5, 
+                    uistretch: true, 
+                    id: 'installedInfo', 
+                    onCreate: () => { 
+                        if(item.loaded == false) 
+                            document.querySelector('#installedInfo').style.display = 'none';
+                    } 
+                }, 
+                [
                     ui.button('Disable', {primary: true}),
                     ui.button('Uninstall', {})
                 ]),
+                ui.container('row', 
+                { 
+                    uiunstretch: true,
+                    id: 'installedReason',
+                    onCreate: () => { 
+                        if(!item.reason) 
+                            document.querySelector('#installedReason').style.display = 'none';
+                    } 
+                }, 
+                [
+                    ui.icon('ic-error.svg', { srcType: 'asset', height: 18 }),
+                    ui.label(item.reason, { color: '#f33333' }),
+                ]),
+
                 ui.container('row', { marginTop: 5, scroll: 'horizontal' }, [
                     ui.container('row', { }, [
                         ui.card('Test'),
@@ -127,6 +152,10 @@ class MainWindow {
                         listItem.classList.add('sel');
                         updateInstalledInfo(loadedMods[localitemi]);
                     }
+                    if(!item.loaded) {
+                        listItem.style.order = 5;
+                        listItem.style.opacity = 0.6;
+                    }
                     if(item.name) {
                         let listItemName = document.createElement('h4');
                         listItemName.innerText = item.name;
@@ -135,6 +164,11 @@ class MainWindow {
                     if(item.authors) {
                         let listItemDesc = document.createElement('p');
                         listItemDesc.innerText = 'by ' + item.authors.join(', ');
+                        if(!item.loaded) listItemDesc = 'Error Loading Mod';
+                        listItem.appendChild(listItemDesc);
+                    } else if(!item.loaded) {
+                        let listItemDesc = document.createElement('p');
+                        listItemDesc.innerText = 'Error Loading Mod';
                         listItem.appendChild(listItemDesc);
                     }
 

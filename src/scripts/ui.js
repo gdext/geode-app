@@ -473,6 +473,47 @@ function UiObject() {
 
         return labelElement;
     }
+
+    this.createIcon = (id, src, srcType, options) => {
+        let iconElement = document.createElement('img');
+        iconElement.classList.add('ui-icon');
+        if(id) iconElement.id = id;
+
+        if(srcType == 'asset') {
+            import(`../assets/${src}`).then(({default: i}) => {
+                iconElement.src = i;
+            }).catch(() => {
+                console.error('Cannot load icon asset');
+            });
+        } else {
+            iconElement.src = src;
+        }
+
+        if(options.width) iconElement.style.width = options.width + 'px';
+        if(options.height) iconElement.style.height = options.height + 'px';    
+        
+        if(options.marginTop != undefined) iconElement.style.marginTop = options.marginTop + 'px';
+        if(options.marginBottom != undefined) iconElement.style.marginBottom = options.marginBottom + 'px';
+
+        return iconElement;
+    }
+
+    this.createImage = (id, src, options) => {
+        let imgElement = document.createElement('img');
+        imgElement.classList.add('ui-image');
+        if(id) imgElement.id = id;
+            
+        imgElement.src = src;
+
+        if(options.width) imgElement.style.width = options.width + 'px';
+        if(options.height) imgElement.style.height = options.height + 'px';    
+        if(options.round) imgElement.classList.add('round');
+
+        if(options.marginTop != undefined) imgElement.style.marginTop = options.marginTop + 'px';
+        if(options.marginBottom != undefined) imgElement.style.marginBottom = options.marginBottom + 'px';
+
+        return imgElement;
+    }
     
     this.createSlider = (id, value, label, options) => {
         let obj = {};
@@ -780,6 +821,16 @@ const ui = {
                     if(p.disabled) labelElement.classList.add('disabled');
                     elementContainer = labelElement;
                     break;
+                case 'icon':
+                    let iconElement = uiObject.createIcon(p.id, p.src, p.srcType, p);
+                    if(p.disabled) iconElement.classList.add('disabled');
+                    elementContainer = iconElement;
+                    break;
+                case 'image':
+                    let imgElement = uiObject.createImage(p.id, p.src, p);
+                    if(p.disabled) imgElement.classList.add('disabled');
+                    elementContainer = imgElement;
+                    break;
                 case 'slider':
                     let slider = uiObject.createSlider(p.id, p.defaultValue(), p.label, p);
                     let sliderElement = slider.slider;
@@ -921,6 +972,24 @@ const ui = {
      */
     label: (text, props = {}, children = []) =>
         ui.create('label', Object.assign(props, { text }), children),
+    /**
+     * Creates an icon
+     * @param {string} src icon source
+     * @param {{}} props element properties
+     * @param {[]} children element children
+     * @returns UIElement
+     */
+    icon: (src, props = {}, children = []) =>
+        ui.create('icon', Object.assign(props, { src }), children),
+     /**
+     * Creates an image
+     * @param {string} src image source
+     * @param {{}} props element properties
+     * @param {[]} children element children
+     * @returns UIElement
+     */
+    image: (src, props = {}, children = []) =>
+        ui.create('image', Object.assign(props, { src }), children),
     /**
      * Creates a slider
      * @param {string} label slider label
