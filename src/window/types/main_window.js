@@ -76,7 +76,7 @@ class MainWindow {
             tabInstalledInfo.innerHTML = '';
 
             let infoUi = ui.container('column', { scroll: 'vertical', paddingX: 15, paddingY: 0}, [
-                ui.container('row', {}, [
+                ui.container('row', { uiunstretch: true }, [
                     ui.label(item.name, { style: 'bold' }),
                     ui.label(item.version? 'v' + item.version : '', { color: '#ffffff66' }),
                 ]),
@@ -84,7 +84,18 @@ class MainWindow {
                 ui.container('row', { marginTop: 5, uistretch: true }, [
                     ui.button('Disable', {primary: true}),
                     ui.button('Uninstall', {})
-                ])
+                ]),
+                ui.container('row', { marginTop: 5, scroll: 'horizontal' }, [
+                    ui.container('row', { }, [
+                        ui.card('Test'),
+                        ui.card('Test'),
+                        ui.card('Test'),
+                        ui.card('Test'),
+                        ui.card('Test'),
+                        ui.card('Test'),
+                        ui.card('Test')
+                    ]),
+                ]),
             ]);
 
             ui.renderUiObject(infoUi, tabInstalledInfo);

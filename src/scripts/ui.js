@@ -811,6 +811,7 @@ const ui = {
             }
 
             if(p.uistretch) elementContainer.classList.add('uistretch');
+            else if(p.uiunstretch) elementContainer.classList.add('uiunstretch');
 
             e.appendChild(elementContainer);
             elementContainer.classList.add('ui-element');

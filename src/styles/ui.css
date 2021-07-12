@@ -15,6 +15,9 @@
 .uistretch .ui-element {
     width: 100%;
 }
+.uistretch .uiunstretch .ui-element {
+    width: fit-content;
+}
 .ui-container.r .ui-element {
     margin-right: 5px;
 }
@@ -295,6 +298,7 @@ input::-webkit-color-swatch {
     font-size: 12px;
     display: flex;
     width: 180px;
+    flex-shrink: 0;
 }
 
 .ui-tab-part {
@@ -348,6 +352,7 @@ input::-webkit-color-swatch {
     border-radius: 0;
 }
 .header .ui-tab-part {
+    border-bottom: 3px transparent solid;
     border-right: none;
     font-size: 16px;
     font-weight: 500;
@@ -484,9 +489,14 @@ input::-webkit-color-swatch {
     display: block;
 }
 .ui-element.sb {
+    flex-shrink: 1 !important;
     overflow-x: auto;
     overflow-y: auto;
     display: block;
+}
+
+.sh > .ui-container, .sb > .ui-container {
+    width: fit-content;
 }
 
 .ui-container.bbg {
