@@ -154,50 +154,54 @@ class MainWindow {
         let tabInstalledList = document.createElement('div');
         tabInstalledList.classList.add('sidebar-list');
 
+        function refreshInstalledList(th) {
+            tabInstalledList.innerHTML = '';
+            let loadedMods = window.geode.getLoadedMods();
+            let itemi = -1;
+            loadedMods.forEach(item => {
+                itemi++;
+                let localitemi = itemi;
+                let listItem = document.createElement('div');
+                listItem.classList.add('sidebar-list-item');
+                if(localitemi == selectedListItem) {
+                    listItem.classList.add('sel');
+                    updateInstalledInfo(loadedMods[localitemi]);
+                }
+                if(!item.loaded) {
+                    listItem.style.order = 5;
+                    listItem.style.opacity = 0.6;
+                }
+                if(item.name) {
+                    let listItemName = document.createElement('h4');
+                    listItemName.innerText = item.name;
+                    listItem.appendChild(listItemName);
+                }
+                if(item.authors) {
+                    let listItemDesc = document.createElement('p');
+                    listItemDesc.innerText = 'by ' + item.authors.join(', ');
+                    if(!item.loaded) listItemDesc = 'Error Loading Mod';
+                    listItem.appendChild(listItemDesc);
+                } else if(!item.loaded) {
+                    let listItemDesc = document.createElement('p');
+                    listItemDesc.innerText = 'Error Loading Mod';
+                    listItem.appendChild(listItemDesc);
+                }
+
+                listItem.onclick = () => {
+                    let curSel = th.window.content.querySelector('.sidebar-list-item.sel');
+                    if(curSel) curSel.classList.remove('sel');
+                    listItem.classList.add('sel');
+                    updateInstalledInfo(loadedMods[localitemi]);
+                    selectedListItem = localitemi;
+                }
+
+                tabInstalledList.appendChild(listItem);
+            });
+        }
+
         if(window.geode) {
             window.geode.onModsLoaded(() => {
-                tabInstalledList.innerHTML = '';
-                let loadedMods = window.geode.getLoadedMods();
-                let itemi = -1;
-                loadedMods.forEach(item => {
-                    itemi++;
-                    let localitemi = itemi;
-                    let listItem = document.createElement('div');
-                    listItem.classList.add('sidebar-list-item');
-                    if(localitemi == selectedListItem) {
-                        listItem.classList.add('sel');
-                        updateInstalledInfo(loadedMods[localitemi]);
-                    }
-                    if(!item.loaded) {
-                        listItem.style.order = 5;
-                        listItem.style.opacity = 0.6;
-                    }
-                    if(item.name) {
-                        let listItemName = document.createElement('h4');
-                        listItemName.innerText = item.name;
-                        listItem.appendChild(listItemName);
-                    }
-                    if(item.authors) {
-                        let listItemDesc = document.createElement('p');
-                        listItemDesc.innerText = 'by ' + item.authors.join(', ');
-                        if(!item.loaded) listItemDesc = 'Error Loading Mod';
-                        listItem.appendChild(listItemDesc);
-                    } else if(!item.loaded) {
-                        let listItemDesc = document.createElement('p');
-                        listItemDesc.innerText = 'Error Loading Mod';
-                        listItem.appendChild(listItemDesc);
-                    }
-
-                    listItem.onclick = () => {
-                        let curSel = this.window.content.querySelector('.sidebar-list-item.sel');
-                        if(curSel) curSel.classList.remove('sel');
-                        listItem.classList.add('sel');
-                        updateInstalledInfo(loadedMods[localitemi]);
-                        selectedListItem = localitemi;
-                    }
-
-                    tabInstalledList.appendChild(listItem);
-                });
+                refreshInstalledList(this);
             });
         }
 
