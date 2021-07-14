@@ -64,10 +64,12 @@ class MainWindow {
         tabInstalled.classList.add('flex');
         tabInstalled.style.height = '100%';
         tabInstalled.style.maxHeight = tabsMaxHeightCss;
+
         let tabBrowse = document.createElement('div');
         tabBrowse.id = 'mainWindowTab1';
         tabBrowse.style.display = 'none';
         tabBrowse.style.maxHeight = tabsMaxHeightCss;
+
         let tabSettings = document.createElement('div');
         tabSettings.id = 'mainWindowTab2';
         tabSettings.style.display = 'none';
@@ -93,7 +95,7 @@ class MainWindow {
                 
                 ui.container('row', 
                 { 
-                    marginTop: 5, 
+                    marginTop: 10, 
                     uistretch: true, 
                     id: 'installedInfo', 
                     onCreate: () => { 
@@ -102,8 +104,21 @@ class MainWindow {
                     } 
                 }, 
                 [
-                    ui.button('Disable', {primary: true}),
-                    ui.button('Uninstall', {})
+                    ui.button( 
+                        item.enabled ? 'Disable' : 'Enable', 
+                        {
+                            primary: true,
+                            icon: item.enabled ? 'ic-disable.svg' : 'ic-enable.svg', 
+                            iconHeight: 14
+                        } 
+                    ),
+                    ui.button(
+                        'Uninstall', 
+                        { 
+                            icon: 'ic-uninstall.svg', 
+                            iconHeight: 14 
+                        }
+                    )
                 ]),
                 ui.container('row', 
                 { 
@@ -141,6 +156,7 @@ class MainWindow {
 
         if(window.geode) {
             window.geode.onModsLoaded(() => {
+                tabInstalledList.innerHTML = '';
                 let loadedMods = window.geode.getLoadedMods();
                 let itemi = -1;
                 loadedMods.forEach(item => {
@@ -177,6 +193,7 @@ class MainWindow {
                         if(curSel) curSel.classList.remove('sel');
                         listItem.classList.add('sel');
                         updateInstalledInfo(loadedMods[localitemi]);
+                        selectedListItem = localitemi;
                     }
 
                     tabInstalledList.appendChild(listItem);
