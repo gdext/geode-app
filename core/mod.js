@@ -17,8 +17,16 @@ module.exports = class Mod {
             return;
         }
 
+        if (this.zipName.match(/\.dll$/g) != null) {
+            this.name    = this.zipName;
+            this.dllPath = file;
+            return;
+        }
+
         this.zip = new Zip(file);
         this.metadata = null;
+
+        this.enabled = false;
 
         let entries = this.zip.getEntries();
 

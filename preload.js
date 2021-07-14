@@ -23,7 +23,7 @@ contextBridge.exposeInMainWorld('geode', {
     }
 });
 
-ipcRenderer.on('mods-loaded', (s, mods) => {
+ipcRenderer.on('mods-change', (s, mods) => {
     loadedMods = mods;
 
     for (let cb of modLoadCallbacks)

@@ -3,16 +3,19 @@ const { overlayWindow } = require('electron-overlay-window');
 
 const Connection = require('./core/connection');
 const ModManager = require('./core/mod_manager');
+const Config     = require('./core/config');
 
 const path = require('path');
 
 const CONNECTION_PORT   = 3264;
 
 const GAME_WINDOW_TITLE = 'Geometry Dash';
-const OVERLAY_ENABLED   = false;
+const OVERLAY_ENABLED   = true;
 
-const MOD_FOLDER = path.join(app.getPath('userData'), 'mods');
-const MOD_CACHE  = path.join(app.getPath('userData'), 'cache/mods');
+const MOD_FOLDER  = path.join(app.getPath('userData'), 'mods');
+const MOD_CACHE   = path.join(app.getPath('userData'), 'cache/mods');
+
+const CONFIG_PATH = path.join(app.getPath('userData'), 'config.json');
 
 module.exports = class MainApp {
     constructor() {
@@ -21,28 +24,30 @@ module.exports = class MainApp {
 
         this.createWindow();
         this.initConnection();
+        
+        this.config = new Config(CONFIG_PATH);
 
-        this.modManager = new ModManager(MOD_FOLDER, MOD_CACHE);
+        this.config.defineProperty('mods', 'object', {});
+
+        this.modManager = new ModManager(this, MOD_FOLDER, MOD_CACHE);
 
         this.modManager.loadPromise
             .then(() => {
-                let mods = [];
+                this.sendModsChangeEvent();
+                this.modManager.sendModList();
 
                 for (let m of this.modManager.getModList()) {
-                    let mod = {
-                        loaded: m.loaded,
-                        reason: m.reason
-                    };
+                    let modConfig = this.config.mods[m.zipName];
 
-                    if (m.name) mod.name = m.name;
-                    else mod.name = m.zipName;
-                    if (m.version) mod.version = m.version;
-                    if (m.authors) mod.authors = m.authors;
-
-                    mods.push(mod);
+                    if (m.loaded && (!modConfig || modConfig.enabled)) {
+                        this.modManager.loadMod(m.zipName)
+                            .then(() => {
+                                console.log(`'${m.name}' loaded successfully`);
+                                this.sendModsChangeEvent
+                            })
+                            .catch((e) => console.log(`Couldn't enable mod '${m.name}': ${e.message}`));
+                    }
                 }
-
-                this.sendWebEvent("mods-loaded", mods);
             })
             .catch(e => {
                 console.log("An error occurred while loading mods: ");
@@ -50,6 +55,27 @@ module.exports = class MainApp {
             });
 
         ipcMain.handle('overlay-key', this.toggleOverlay.bind(this));
+    }
+
+    sendModsChangeEvent() {
+        let modList = [];
+
+        for (let m of this.modManager.getModList()) {
+            let mod = {
+                loaded: m.loaded,
+                enabled: m.enabled,
+                reason: m.reason
+            };
+
+            if (m.name) mod.name = m.name;
+            else mod.name = m.zipName;
+            if (m.version) mod.version = m.version;
+            if (m.authors) mod.authors = m.authors;
+
+            modList.push(mod);
+        }
+
+        this.sendWebEvent("mods-change", modList);
     }
 
     createWindow() {
@@ -61,8 +87,6 @@ module.exports = class MainApp {
             },
             ...overlayOpts
         });
-
-        this.window.webContents.openDevTools();
 
         this.window.setMenu(null);
         this.window.loadFile(this.htmlPath)
@@ -108,8 +132,6 @@ module.exports = class MainApp {
         this.connection.on('connect', () => console.log('Connected to Geode Native'));
 
         this.connection.on('packet', data => {
-            data = JSON.parse(data);
-
             if (!data || typeof data != 'object' || Array.isArray(data))
                 return;
 
@@ -119,6 +141,11 @@ module.exports = class MainApp {
             switch (data.type) {
                 case 'overlay_key':
                     this.toggleOverlay();
+                    break;
+                case 'modloaded':
+                case 'modunloaded':
+                    this.modManager.recievePacket(data);
+                    break;
             }
         })
 

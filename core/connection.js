@@ -19,17 +19,13 @@ module.exports = class Connection extends EventEmitter {
     }
 
     checkForPackets() {
-        while (true) {
-            if (this.currentData.length >= 4) {
-                let packet_length = this.currentData.readUInt32LE(0);
-
-                if (this.currentData.length >= packet_length + 4) {
-                    let packet_data = this.currentData.slice(4, packet_length + 4);
+        for (let i = 0; i < this.currentData.length; i++) {
+            if (this.currentData[i] === 0x17) {
+                let packet_data = this.currentData.slice(0, i);
                 
-                    this.currentData = this.currentData.slice(packet_length + 4, this.currentData.length);
-                    this.onPacketData(packet_data);
-                } else return;
-            } else return;
+                this.currentData = this.currentData.slice(i + 1, this.currentData.length);
+                this.onPacketData(packet_data);
+            }
         }
     }
 
@@ -51,7 +47,7 @@ module.exports = class Connection extends EventEmitter {
             this.packet_queue = [];
         }
 
-        this.emit("connection");
+        this.emit("connect");
     }
 
     onError(e) {
@@ -59,10 +55,12 @@ module.exports = class Connection extends EventEmitter {
     }
 
     sendString(str) {
-        let buffer = Buffer.alloc(str.length + 4);
+        let buffer = Buffer.alloc(str.length + 1);
 
-        buffer.writeUInt32LE(str.length, 0);
-        buffer.write(str, 4);
+        buffer.write(str, 0);
+        buffer.writeUInt8(0x17, str.length);
+
+        console.log(str);
 
         if (this.sockets.length > 0)
             this.sendDataToSockets(buffer);
@@ -72,6 +70,7 @@ module.exports = class Connection extends EventEmitter {
 
     sendPacket(type, data) {
         data.type = type;
+
         this.sendString(JSON.stringify(data));
     }
 
