@@ -562,7 +562,6 @@ function UiObject() {
                 #${idd}::-webkit-slider-runnable-track {
                     background: -webkit-linear-gradient(left, #3C94E4 ${percent*100}%, #5A5A5A 0%);
                 }
-
                 .bbg #${idd}::-webkit-slider-runnable-track {
                     background: -webkit-linear-gradient(left, #fff ${percent*100}%, #1865c5 0%);
                 }
@@ -614,7 +613,10 @@ function UiObject() {
         if(options.seperationLeft != undefined) container.style.marginLeft = options.seperationLeft + 'px';
         if(options && options.marginTop) container.style.marginTop = options.marginTop + 'px';
         if(options && options.marginBottom) container.style.marginBottom = options.marginBottom + 'px';
-        
+        if(options.align == 'end') container.style.alignItems = 'flex-end';
+        else if(options.align == 'start') container.style.alignItems = 'flex-start';
+
+
         //create title
         if(title) {
             let titleElem = document.createElement('p');
@@ -748,7 +750,7 @@ function UiObject() {
             }
             if(!clickedInsideContextMenu) {
                 let menuParent = menu.parentElement;
-                if(menuParent.parentElement) menuParent.parentElement.removeChild(menuParent);
+                if(menuParent) menuParent.removeChild(menu);
                 window.removeEventListener('mousedown', windowClickEventListener);
             }
             clickedInsideContextMenu = false;
@@ -832,12 +834,15 @@ const ui = {
                     elementContainer = imgElement;
                     break;
                 case 'slider':
+                    let sliderContainer = document.createElement('div');
+                    sliderContainer.classList.add('ui-element');
+                    elementContainer = sliderContainer;
                     let slider = uiObject.createSlider(p.id, p.defaultValue(), p.label, p);
                     let sliderElement = slider.slider;
                     let labelElement2 = slider.label;
                     if(p.disabled) sliderElement.classList.add('disabled');
                     if(labelElement2) elementContainer.appendChild(labelElement2);
-                    elementContainer = sliderElement;
+                    elementContainer.appendChild(sliderElement);
                     elementContainer.style.flexDirection = 'column';
                     break;
                 case 'container':
@@ -1038,4 +1043,3 @@ const ui = {
 }
 
 export default ui;
-
